@@ -1,0 +1,31 @@
+{
+  "name": "cycroute-embed-module",
+  "version": "1.0.0",
+  "description": "IframeWithLoader component for cycroute embeds",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "tsup": "^8.5.0",
+    "typescript": "~6.0.3"
+  }
+}
