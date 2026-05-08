@@ -5,7 +5,7 @@ React component for embedding Cycroute iframes with a built-in loading animation
 ## Installation
 
 ```bash
-npm install cycroute-embed-module
+npm install github:Cycroute/cycroute-embed-module
 ```
 
 React 16.8 or later is required as a peer dependency.
