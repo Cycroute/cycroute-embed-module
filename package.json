@@ -4,29 +4,38 @@
   "description": "IframeWithLoader component for cycroute embeds",
   "type": "module",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "prepare": "tsup"
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
   },
   "devDependencies": {
     "@types/react": "^18",
-    "tsup": "^8.5.0",
-    "typescript": "~6.0.3"
+    "oxlint": "1.90.0",
+    "tsdown": "^0.23.5",
+    "typescript": "^7.0.2"
   }
 }

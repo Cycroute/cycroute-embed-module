@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off",
+    // The embedded page is our own embed.cycroute.com, which needs JS, fetch and links opening in a new tab.
+    // A sandbox would break rendering and links, and the official loader.js does not set one either.
+    "react/iframe-missing-sandbox": "off"
+  },
+  "ignorePatterns": ["dist"]
+}

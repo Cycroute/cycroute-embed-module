@@ -39,8 +39,12 @@ const loaderStyle: React.CSSProperties = {
     textAlign: 'left',
 };
 
-const IframeWithLoader = memo(function IframeWithLoader({ src, style, ...props }: React.IframeHTMLAttributes<HTMLIFrameElement> & { style?: React.CSSProperties }) {
-    const [loaded, setLoaded] = useState(false);
+// Return type is explicitly React.ReactElement: the inferred React.JSX.Element does not exist in older @types/react,
+// which would make the emitted type declarations unreadable for those consumers.
+const IframeWithLoader = memo(function IframeWithLoader({ src, style, onLoad, ...props }: React.IframeHTMLAttributes<HTMLIFrameElement> & { style?: React.CSSProperties }): React.ReactElement {
+    // Remember which src finished loading, so the loader shows again automatically when src changes.
+    const [loadedSrc, setLoadedSrc] = useState<string | undefined | null>(null);
+    const loaded = loadedSrc === src;
     const [frame, setFrame] = useState(0);
 
     const resolvedStyle = useMemo<React.CSSProperties>(() => {
@@ -60,7 +64,11 @@ const IframeWithLoader = memo(function IframeWithLoader({ src, style, ...props }
         ...resolvedStyle, border: 'none', display: 'block',
     }), [resolvedStyle]);
 
-    const handleLoad = useCallback(() => setLoaded(true), []);
+    // Always call the consumer's onLoad too, instead of letting it override ours and leave the loader stuck.
+    const handleLoad = useCallback((e: React.SyntheticEvent<HTMLIFrameElement, Event>) => {
+        setLoadedSrc(src);
+        onLoad?.(e);
+    }, [src, onLoad]);
 
     useEffect(() => {
         if (loaded) return;
@@ -78,9 +86,10 @@ const IframeWithLoader = memo(function IframeWithLoader({ src, style, ...props }
             <iframe
                 src={src}
                 style={iframeStyle}
+                title="Cycroute"
                 referrerPolicy="no-referrer"
-                onLoad={handleLoad}
                 {...props}
+                onLoad={handleLoad}
             />
         </div>
     );
